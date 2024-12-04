@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<!-- saved from url=(0063)https://note.nkmk.me/python-itertools-product/#itertoolsproduct -->
+<html lang="ja"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<link rel="alternate" href="https://note.nkmk.me/python-itertools-product/" hreflang="ja"><link rel="alternate" href="https://note.nkmk.me/en/python-itertools-product/" hreflang="en">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="description" content="Pythonで複数のリストの直積（デカルト積）を生成するにはitertools.product()を使う。 itertools.product() --- 効率的なループ実行のためのイテレータ生成関数 — Python 3.11.4 ドキュメント 直積（デカルト積） ...">
+
+<title>Pythonで複数のリストの直積（デカルト積）を生成するitertools.product | note.nkmk.me</title>
+
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="Pythonで複数のリストの直積（デカルト積）を生成するitertools.product | note.nkmk.me">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://note.nkmk.me/python-itertools-product/">
+<meta property="og:description" content="Pythonで複数のリストの直積（デカルト積）を生成するにはitertools.product()を使う。 itertools.product() --- 効率的なループ実行のためのイテレータ生成関数 — Python 3.11.4 ドキュメント 直積（デカルト積） ...">
+<meta property="og:image" content="https://i.gyazo.com/6903b41b1ca85b5753ca705d90976d8b.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<link href="./Pythonで複数のリストの直積（デカルト積）を生成するitertools.product _ note.nkmk.me_files/style.css" rel="stylesheet">
+
+<script async="" src="./Pythonで複数のリストの直積（デカルト積）を生成するitertools.product _ note.nkmk.me_files/async-ads.js"></script><script async="" src="./Pythonで複数のリストの直積（デカルト積）を生成するitertools.product _ note.nkmk.me_files/js"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-6SMTSXX5XJ');
+</script>
+
+<script async="" src="./Pythonで複数のリストの直積（デカルト積）を生成するitertools.product _ note.nkmk.me_files/f.txt" crossorigin="anonymous"></script>
+
+<script type="application/ld+json">
+[{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://note.nkmk.me","name":"Home"}},{"@type":"ListItem","position":2,"item":{"@id":"https://note.nkmk.me/python/","name":"Python"}}]},
+{"@context":"http://schema.org","@type":"Article","author":{"@type":"Person","name":"nkmk","url":["https://github.com/nkmk","https://twitter.com/nkmk_me"]},"headline":"Pythonで複数のリストの直積（デカルト積）を生成するitertools.product","datePublished":"2018-07-24","dateModified":"2023-07-11","description":"Pythonで複数のリストの直積（デカルト積）を生成するにはitertools.product()を使う。 itertools.product() --- 効率的なループ実行のためのイテレータ生成関数 — Python 3.11.4 ドキュメント 直積（デカルト積） ..."}]
+</script>
+
+
+<script src="./Pythonで複数のリストの直積（デカルト積）を生成するitertools.product _ note.nkmk.me_files/cse_element__ja.js" type="text/javascript"></script><link type="text/css" href="./Pythonで複数のリストの直積（デカルト積）を生成するitertools.product _ note.nkmk.me_files/default+ja.css" rel="stylesheet"><link type="text/css" href="./Pythonで複数のリストの直積（デカルト積）を生成するitertools.product _ note.nkmk.me_files/default.css" rel="stylesheet"><style type="text/css">.gsc-control-cse{font-family:arial, sans-serif}.gsc-control-cse .gsc-table-result{font-family:arial, sans-serif}.gsc-refinementsGradient{background:linear-gradient(to left,rgba(255,255,255,1),rgba(255,255,255,0))}.gsc-control-cse{border-color:#FFFFFF;background-color:#FFFFFF}input.gsc-input,.gsc-input-box,.gsc-input-box-hover,.gsc-input-box-focus{border-color:#D9D9D9}.gsc-search-button-v2,.gsc-search-button-v2:hover,.gsc-search-button-v2:focus{border-color:#999;background-color:#BBB;background-image:none;filter:none}.gsc-search-button-v2 svg{fill:#FFFFFF}.gsc-tabHeader.gsc-tabhActive,.gsc-refinementHeader.gsc-refinementhActive{color:#CCCCCC;border-color:#CCCCCC;background-color:#FFFFFF}.gsc-tabHeader.gsc-tabhInactive,.gsc-refinementHeader.gsc-refinementhInactive{color:#CCCCCC;border-color:#CCCCCC;background-color:#FFFFFF}.gsc-webResult.gsc-result,.gsc-results .gsc-imageResult{border-color:#FFFFFF;background-color:#FFFFFF}.gsc-webResult.gsc-result:hover{border-color:#FFFFFF;background-color:#FFFFFF}.gs-webResult.gs-result a.gs-title:link,.gs-webResult.gs-result a.gs-title:link b,.gs-imageResult a.gs-title:link,.gs-imageResult a.gs-title:link b{color:#1155CC}.gs-webResult.gs-result a.gs-title:visited,.gs-webResult.gs-result a.gs-title:visited b,.gs-imageResult a.gs-title:visited,.gs-imageResult a.gs-title:visited b{color:#1155CC}.gs-webResult.gs-result a.gs-title:hover,.gs-webResult.gs-result a.gs-title:hover b,.gs-imageResult a.gs-title:hover,.gs-imageResult a.gs-title:hover b{color:#1155CC}.gs-webResult.gs-result a.gs-title:active,.gs-webResult.gs-result a.gs-title:active b,.gs-imageResult a.gs-title:active,.gs-imageResult a.gs-title:active b{color:#1155CC}.gsc-cursor-page{color:#1155CC}a.gsc-trailing-more-results:link{color:#1155CC}.gs-webResult:not(.gs-no-results-result):not(.gs-error-result) .gs-snippet,.gs-fileFormatType{color:#333333}.gs-webResult div.gs-visibleUrl{color:#009933}.gs-webResult div.gs-visibleUrl-short{color:#009933}.gs-webResult div.gs-visibleUrl-short{display:none}.gs-webResult div.gs-visibleUrl-long{display:none}.gs-webResult div.gs-visibleUrl-breadcrumb{display:block}.gs-promotion div.gs-visibleUrl-short{display:none}.gs-promotion div.gs-visibleUrl-long{display:block}.gs-promotion div.gs-visibleUrl-breadcrumb{display:none}.gsc-cursor-box{border-color:#FFFFFF}.gsc-results .gsc-cursor-box .gsc-cursor-page{border-color:#CCCCCC;background-color:#FFFFFF;color:#CCCCCC}.gsc-results .gsc-cursor-box .gsc-cursor-current-page{border-color:#CCCCCC;background-color:#FFFFFF;color:#CCCCCC}.gsc-webResult.gsc-result.gsc-promotion{border-color:#F6F6F6;background-color:#F6F6F6}.gsc-completion-title{color:#1155CC}.gsc-completion-snippet{color:#333333}.gs-promotion a.gs-title:link,.gs-promotion a.gs-title:link *,.gs-promotion .gs-snippet a:link{color:#1155CC}.gs-promotion a.gs-title:visited,.gs-promotion a.gs-title:visited *,.gs-promotion .gs-snippet a:visited{color:#1155CC}.gs-promotion a.gs-title:hover,.gs-promotion a.gs-title:hover *,.gs-promotion .gs-snippet a:hover{color:#1155CC}.gs-promotion a.gs-title:active,.gs-promotion a.gs-title:active *,.gs-promotion .gs-snippet a:active{color:#1155CC}.gs-promotion .gs-snippet,.gs-promotion .gs-title .gs-promotion-title-right,.gs-promotion .gs-title .gs-promotion-title-right *{color:#333333}.gs-promotion .gs-visibleUrl,.gs-promotion .gs-visibleUrl-short{color:#009933}.gcsc-find-more-on-google{color:#1155CC}.gcsc-find-more-on-google-magnifier{fill:#1155CC}</style><style type="text/css">.gscb_a{display:inline-block;font:27px/13px arial,sans-serif}.gsst_a .gscb_a{color:#a1b9ed;cursor:pointer}.gsst_a:hover .gscb_a,.gsst_a:focus .gscb_a{color:#36c}.gsst_a{display:inline-block}.gsst_a{cursor:pointer;padding:0 4px}.gsst_a:hover{text-decoration:none!important}.gsst_b{font-size:16px;padding:0 2px;position:relative;user-select:none;-webkit-user-select:none;white-space:nowrap}.gsst_e{vertical-align:middle;opacity:0.55;}.gsst_a:hover .gsst_e,.gsst_a:focus .gsst_e{opacity:0.72;}.gsst_a:active .gsst_e{opacity:1;}.gsst_f{background:white;text-align:left}.gsst_g{background-color:white;border:1px solid #ccc;border-top-color:#d9d9d9;box-shadow:0 2px 4px rgba(0,0,0,0.2);-webkit-box-shadow:0 2px 4px rgba(0,0,0,0.2);margin:-1px -3px;padding:0 6px}.gsst_h{background-color:white;height:1px;margin-bottom:-1px;position:relative;top:-1px}.gsib_a{width:100%;padding:4px 6px 0}.gsib_a,.gsib_b{vertical-align:top}.gssb_c{border:0;position:absolute;z-index:989}.gssb_e{border:1px solid #ccc;border-top-color:#d9d9d9;box-shadow:0 2px 4px rgba(0,0,0,0.2);-webkit-box-shadow:0 2px 4px rgba(0,0,0,0.2);cursor:default}.gssb_f{visibility:hidden;white-space:nowrap}.gssb_k{border:0;display:block;position:absolute;top:0;z-index:988}.gsdd_a{border:none!important}.gsq_a{padding:0}.gssb_a{padding:0 7px}.gssb_a,.gssb_a td{white-space:nowrap;overflow:hidden;line-height:22px}#gssb_b{font-size:11px;color:#36c;text-decoration:none}#gssb_b:hover{font-size:11px;color:#36c;text-decoration:underline}.gssb_g{text-align:center;padding:8px 0 7px;position:relative}.gssb_h{font-size:15px;height:28px;margin:0.2em;-webkit-appearance:button}.gssb_i{background:#eee}.gss_ifl{visibility:hidden;padding-left:5px}.gssb_i .gss_ifl{visibility:visible}a.gssb_j{font-size:13px;color:#36c;text-decoration:none;line-height:100%}a.gssb_j:hover{text-decoration:underline}.gssb_l{height:1px;background-color:#e5e5e5}.gssb_m{color:#000;background:#fff}.gssb_a{padding:0 9px}.gsib_a{padding:5px 9px 4px 9px}.gscb_a{line-height:27px}.gssb_e{border:0}.gssb_l{margin:5px 0}input.gsc-input::-webkit-input-placeholder{font-size:14px}input.gsc-input:-moz-placeholder{font-size:14px}input.gsc-input::-moz-placeholder{font-size:14px}input.gsc-input:-ms-input-placeholder{font-size:14px}input.gsc-input:focus::-webkit-input-placeholder{color:transparent}input.gsc-input:focus:-moz-placeholder{color:transparent}input.gsc-input:focus::-moz-placeholder{color:transparent}input.gsc-input:focus:-ms-input-placeholder{color:transparent}.gssb_c .gsc-completion-container{position:static}.gssb_c{z-index:5000}.gsc-completion-container table{background:transparent;font-size:inherit;font-family:inherit}.gssb_c > tbody > tr,.gssb_c > tbody > tr > td,.gssb_d,.gssb_d > tbody > tr,.gssb_d > tbody > tr > td,.gssb_e,.gssb_e > tbody > tr,.gssb_e > tbody > tr > td{padding:0;margin:0;border:0}.gssb_a table,.gssb_a table tr,.gssb_a table tr td{padding:0;margin:0;border:0}</style></head>
+
+<body data-new-gr-c-s-check-loaded="14.1202.0" data-gr-ext-installed="" class="vsc-initialized">
+    <header>
+        <div class="header-container">
+            <div class="header-title">
+                <a href="https://note.nkmk.me/">note.nkmk.me</a>
+            </div>
+        </div>
+    </header>
+    <div id="center-container">
+        <main>
+            
+<ol id="breadcrumb">
+    <li><a href="https://note.nkmk.me/">Home</a></li>
+<li><a href="https://note.nkmk.me/python/">Python</a></li>
+</ol>
+<article>
+    <h1>Pythonで複数のリストの直積（デカルト積）を生成するitertools.product</h1>
+    <div id="info">
+        Modified: <time datetime="2023-07-11">2023-07-11</time> | Tags: <a href="https://note.nkmk.me/python/">Python</a>, <a href="https://note.nkmk.me/list/">リスト</a>
+    </div>
+    
+    <div id="content">
+        <div><p>Pythonで複数のリストの直積（デカルト積）を生成するには<code>itertools.product()</code>を使う。</p>
+<ul>
+<li><a href="https://docs.python.org/ja/3/library/itertools.html#itertools.product">itertools.product() --- 効率的なループ実行のためのイテレータ生成関数 — Python 3.11.4 ドキュメント</a></li>
+</ul>
+<div class="toc"><span class="toctitle">目次</span><ul>
+<li><a href="https://note.nkmk.me/python-itertools-product/#_1">直積（デカルト積）とは</a></li>
+<li><a href="https://note.nkmk.me/python-itertools-product/#itertoolsproduct">itertools.product()の基本的な使い方</a><ul>
+<li><a href="https://note.nkmk.me/python-itertools-product/#_2">返り値はイテレータ</a></li>
+<li><a href="https://note.nkmk.me/python-itertools-product/#list">結果をリスト化: <code>list()</code></a></li>
+<li><a href="https://note.nkmk.me/python-itertools-product/#_3">複数のイテラブルオブジェクトを指定可能</a></li>
+</ul>
+</li>
+<li><a href="https://note.nkmk.me/python-itertools-product/#repeat">同じリストを繰り返し使用: 引数repeat</a></li>
+<li><a href="https://note.nkmk.me/python-itertools-product/#_4">多重ループ（ネストしたループ）との速度比較</a><ul>
+<li><a href="https://note.nkmk.me/python-itertools-product/#1000">要素数1000個、二重ループ</a></li>
+<li><a href="https://note.nkmk.me/python-itertools-product/#100">要素数100個、三重ループ</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>単独のリストの順列・組み合わせを生成するには、同じく<code>itertools</code>モジュールの<code>itertools.permutations()</code>, <code>itertools.combinations()</code>を使う。</p>
+<ul>
+<li><strong>関連記事:</strong> <a href="https://note.nkmk.me/python-math-factorial-permutations-combinations/">Pythonで階乗、順列・組み合わせを計算、生成</a></li>
+</ul>
+<p>本記事のサンプルコードでは、以下のように<code>itertools</code>モジュールをインポートする。標準ライブラリなので追加のインストールは不要。pprintは結果を見やすくするために使用している。</p>
+<ul>
+<li><strong>関連記事:</strong> <a href="https://note.nkmk.me/python-pprint-pretty-print/">Pythonのpprintの使い方（リストや辞書を整形して出力）</a></li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">import</span> <span class="nn">pprint</span>
+</code></pre>
+<div class="source">source: <a href="https://github.com/nkmk/python-snippets/blob/baa8e5a70de514f6789950b095a8fc6a07fafb7c/notebook/itertools_product.py#L1-L2">itertools_product.py</a></div>
+</div>
+
+<div class="ad-block-inside">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3230114175671394" data-ad-slot="4622893684" data-ad-format="auto"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div><h2 id="_1">直積（デカルト積）とは</h2>
+<p>直積（デカルト積）は、複数の集合から要素を一つずつ取り出した組み合わせの集合。</p>
+<ul>
+<li><a href="https://ja.wikipedia.org/wiki/%E7%9B%B4%E7%A9%8D%E9%9B%86%E5%90%88">直積集合 - Wikipedia</a></li>
+</ul>
+<p>例えば2つのリストがあったとき、すべてのペアの組み合わせのリストが直積。以降に具体例を示す。</p>
+<h2 id="itertoolsproduct">itertools.product()の基本的な使い方</h2>
+<h3 id="_2">返り値はイテレータ</h3>
+<p>引数に2つのリストを指定すると、<code>itertools.product</code>型のオブジェクトが返される。<code>itertools.product</code>型はイテレータなので、そのまま<code>print()</code>しても中身は出力されない。</p>
+<div class="highlight"><pre><span></span><code><span class="n">l1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="n">l2</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'A'</span><span class="p">,</span> <span class="s1">'B'</span><span class="p">]</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">l1</span><span class="p">,</span> <span class="n">l2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="c1"># &lt;itertools.product object at 0x105e6e2c0&gt;</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
+<span class="c1"># &lt;class 'itertools.product'&gt;</span>
+</code></pre>
+<div class="source">source: <a href="https://github.com/nkmk/python-snippets/blob/baa8e5a70de514f6789950b095a8fc6a07fafb7c/notebook/itertools_product.py#L4-L12">itertools_product.py</a></div>
+</div>
+
+<p>forループで各リストの要素の組み合わせをタプルで取得できる。最後まで辿り着いたイテレータを再度forループでまわしても何も出力されないので注意。</p>
+<ul>
+<li><strong>関連記事:</strong> <a href="https://note.nkmk.me/python-for-usage/">Pythonのfor文によるループ処理（range, enumerate, zipなど）</a></li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">p</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+<span class="c1"># (1, 'A')</span>
+<span class="c1"># (1, 'B')</span>
+<span class="c1"># (2, 'A')</span>
+<span class="c1"># (2, 'B')</span>
+<span class="c1"># (3, 'A')</span>
+<span class="c1"># (3, 'B')</span>
+
+<span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">p</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+</code></pre>
+<div class="source">source: <a href="https://github.com/nkmk/python-snippets/blob/baa8e5a70de514f6789950b095a8fc6a07fafb7c/notebook/itertools_product.py#L14-L24">itertools_product.py</a></div>
+</div>
+
+<p>タプルではなくそれぞれの要素を別々に取得することも可能。</p>
+<ul>
+<li><strong>関連記事:</strong> <a href="https://note.nkmk.me/python-tuple-list-unpack/">Pythonでタプルやリストをアンパック（複数の変数に展開して代入）</a></li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="k">for</span> <span class="n">v1</span><span class="p">,</span> <span class="n">v2</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">l1</span><span class="p">,</span> <span class="n">l2</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">)</span>
+<span class="c1"># 1 A</span>
+<span class="c1"># 1 B</span>
+<span class="c1"># 2 A</span>
+<span class="c1"># 2 B</span>
+<span class="c1"># 3 A</span>
+<span class="c1"># 3 B</span>
+</code></pre>
+<div class="source">source: <a href="https://github.com/nkmk/python-snippets/blob/baa8e5a70de514f6789950b095a8fc6a07fafb7c/notebook/itertools_product.py#L26-L33">itertools_product.py</a></div>
+</div>
+
+<p>各リストをネストしたforループ（多重ループ）と同じ結果が得られる。</p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span> <span class="n">v1</span> <span class="ow">in</span> <span class="n">l1</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">v2</span> <span class="ow">in</span> <span class="n">l2</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">)</span>
+<span class="c1"># 1 A</span>
+<span class="c1"># 1 B</span>
+<span class="c1"># 2 A</span>
+<span class="c1"># 2 B</span>
+<span class="c1"># 3 A</span>
+<span class="c1"># 3 B</span>
+</code></pre>
+<div class="source">source: <a href="https://github.com/nkmk/python-snippets/blob/baa8e5a70de514f6789950b095a8fc6a07fafb7c/notebook/itertools_product.py#L35-L43">itertools_product.py</a></div>
+</div>
+
+<h3 id="list">結果をリスト化: <code>list()</code></h3>
+<p><code>list()</code>で結果をリストに変換することもできる。タプルを要素とするリストとなる。</p>
+<div class="highlight"><pre><span></span><code><span class="n">l1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="n">l2</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'A'</span><span class="p">,</span> <span class="s1">'B'</span><span class="p">]</span>
+
+<span class="n">l_p</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">l1</span><span class="p">,</span> <span class="n">l2</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">l_p</span><span class="p">)</span>
+<span class="c1"># [(1, 'A'), (1, 'B'), (2, 'A'), (2, 'B'), (3, 'A'), (3, 'B')]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">l_p</span><span class="p">))</span>
+<span class="c1"># &lt;class 'list'&gt;</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">l_p</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+<span class="c1"># &lt;class 'tuple'&gt;</span>
+</code></pre>
+<div class="source">source: <a href="https://github.com/nkmk/python-snippets/blob/baa8e5a70de514f6789950b095a8fc6a07fafb7c/notebook/itertools_product.py#L45-L56">itertools_product.py</a></div>
+</div>
+
+<h3 id="_3">複数のイテラブルオブジェクトを指定可能</h3>
+<p>ここまでの説明では引数を便宜上「リスト」としてきたが、イテラブルオブジェクトであればタプルでも辞書でも<code>range</code>オブジェクトでもなんでもいい。</p>
+<p>また、引数にはイテラブルオブジェクトを2個以上指定できる。</p>
+<div class="highlight"><pre><span></span><code><span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="s1">'A'</span><span class="p">,</span> <span class="s1">'B'</span><span class="p">)</span>
+<span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'key1'</span><span class="p">:</span> <span class="s1">'value1'</span><span class="p">,</span> <span class="s1">'key2'</span><span class="p">:</span> <span class="s1">'value2'</span><span class="p">}</span>
+<span class="n">r</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">r</span><span class="p">)))</span>
+<span class="c1"># [('A', 'key1', 0),</span>
+<span class="c1">#  ('A', 'key1', 1),</span>
+<span class="c1">#  ('A', 'key2', 0),</span>
+<span class="c1">#  ('A', 'key2', 1),</span>
+<span class="c1">#  ('B', 'key1', 0),</span>
+<span class="c1">#  ('B', 'key1', 1),</span>
+<span class="c1">#  ('B', 'key2', 0),</span>
+<span class="c1">#  ('B', 'key2', 1)]</span>
+</code></pre>
+<div class="source">source: <a href="https://github.com/nkmk/python-snippets/blob/baa8e5a70de514f6789950b095a8fc6a07fafb7c/notebook/itertools_product.py#L58-L70">itertools_product.py</a></div>
+</div>
+
+<p>結果から分かるように、辞書オブジェクトをそのままイテレートするとキー<code>key</code>が使われる。値<code>value</code>を使いたい場合は<code>values()</code>メソッドを使う。以下の記事を参照。</p>
+<ul>
+<li><strong>関連記事:</strong> <a href="https://note.nkmk.me/python-dict-keys-values-items/">Pythonの辞書（dict）のforループ処理（keys, values, items）</a></li>
+</ul>
+<p><code>range()</code>についての詳細は以下の記事を参照。</p>
+<ul>
+<li><strong>関連記事:</strong> <a href="https://note.nkmk.me/python-range-usage/">Pythonのrange関数の使い方</a></li>
+</ul>
+<div class="ad-block-inside">
+    <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid" data-ad-client="ca-pub-3230114175671394" data-ad-slot="6956237898"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div><h2 id="repeat">同じリストを繰り返し使用: 引数repeat</h2>
+<p>キーワード引数<code>repeat</code>に繰り返しの回数を指定すると、イテラブルオブジェクトを繰り返し使用して直積を生成する。</p>
+<div class="highlight"><pre><span></span><code><span class="n">l1</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'A'</span><span class="p">,</span> <span class="s1">'B'</span><span class="p">]</span>
+
+<span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">l1</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="mi">3</span><span class="p">)))</span>
+<span class="c1"># [('A', 'A', 'A'),</span>
+<span class="c1">#  ('A', 'A', 'B'),</span>
+<span class="c1">#  ('A', 'B', 'A'),</span>
+<span class="c1">#  ('A', 'B', 'B'),</span>
+<span class="c1">#  ('B', 'A', 'A'),</span>
+<span class="c1">#  ('B', 'A', 'B'),</span>
+<span class="c1">#  ('B', 'B', 'A'),</span>
+<span class="c1">#  ('B', 'B', 'B')]</span>
+</code></pre>
+<div class="source">source: <a href="https://github.com/nkmk/python-snippets/blob/baa8e5a70de514f6789950b095a8fc6a07fafb7c/notebook/itertools_product.py#L72-L82">itertools_product.py</a></div>
+</div>
+
+<p><code>repeat</code>を指定しない次の形と同じ（デフォルトは<code>repeat=1</code>）。</p>
+<div class="highlight"><pre><span></span><code><span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">l1</span><span class="p">,</span> <span class="n">l1</span><span class="p">,</span> <span class="n">l1</span><span class="p">)))</span>
+<span class="c1"># [('A', 'A', 'A'),</span>
+<span class="c1">#  ('A', 'A', 'B'),</span>
+<span class="c1">#  ('A', 'B', 'A'),</span>
+<span class="c1">#  ('A', 'B', 'B'),</span>
+<span class="c1">#  ('B', 'A', 'A'),</span>
+<span class="c1">#  ('B', 'A', 'B'),</span>
+<span class="c1">#  ('B', 'B', 'A'),</span>
+<span class="c1">#  ('B', 'B', 'B')]</span>
+</code></pre>
+<div class="source">source: <a href="https://github.com/nkmk/python-snippets/blob/baa8e5a70de514f6789950b095a8fc6a07fafb7c/notebook/itertools_product.py#L84-L92">itertools_product.py</a></div>
+</div>
+
+<p>イテラブルオブジェクトを複数指定した場合は次のようになる。</p>
+<div class="highlight"><pre><span></span><code><span class="n">l1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="n">l2</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'A'</span><span class="p">,</span> <span class="s1">'B'</span><span class="p">]</span>
+
+<span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">l1</span><span class="p">,</span> <span class="n">l2</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="mi">2</span><span class="p">)))</span>
+<span class="c1"># [(1, 'A', 1, 'A'),</span>
+<span class="c1">#  (1, 'A', 1, 'B'),</span>
+<span class="c1">#  (1, 'A', 2, 'A'),</span>
+<span class="c1">#  (1, 'A', 2, 'B'),</span>
+<span class="c1">#  (1, 'B', 1, 'A'),</span>
+<span class="c1">#  (1, 'B', 1, 'B'),</span>
+<span class="c1">#  (1, 'B', 2, 'A'),</span>
+<span class="c1">#  (1, 'B', 2, 'B'),</span>
+<span class="c1">#  (2, 'A', 1, 'A'),</span>
+<span class="c1">#  (2, 'A', 1, 'B'),</span>
+<span class="c1">#  (2, 'A', 2, 'A'),</span>
+<span class="c1">#  (2, 'A', 2, 'B'),</span>
+<span class="c1">#  (2, 'B', 1, 'A'),</span>
+<span class="c1">#  (2, 'B', 1, 'B'),</span>
+<span class="c1">#  (2, 'B', 2, 'A'),</span>
+<span class="c1">#  (2, 'B', 2, 'B')]</span>
+</code></pre>
+<div class="source">source: <a href="https://github.com/nkmk/python-snippets/blob/baa8e5a70de514f6789950b095a8fc6a07fafb7c/notebook/itertools_product.py#L94-L113">itertools_product.py</a></div>
+</div>
+
+<p>次の形と同じ。<code>l1, l1, l2, l2</code>ではなく<code>l1, l2, l1, l2</code>となるので注意。</p>
+<div class="highlight"><pre><span></span><code><span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">l1</span><span class="p">,</span> <span class="n">l2</span><span class="p">,</span> <span class="n">l1</span><span class="p">,</span> <span class="n">l2</span><span class="p">)))</span>
+<span class="c1"># [(1, 'A', 1, 'A'),</span>
+<span class="c1">#  (1, 'A', 1, 'B'),</span>
+<span class="c1">#  (1, 'A', 2, 'A'),</span>
+<span class="c1">#  (1, 'A', 2, 'B'),</span>
+<span class="c1">#  (1, 'B', 1, 'A'),</span>
+<span class="c1">#  (1, 'B', 1, 'B'),</span>
+<span class="c1">#  (1, 'B', 2, 'A'),</span>
+<span class="c1">#  (1, 'B', 2, 'B'),</span>
+<span class="c1">#  (2, 'A', 1, 'A'),</span>
+<span class="c1">#  (2, 'A', 1, 'B'),</span>
+<span class="c1">#  (2, 'A', 2, 'A'),</span>
+<span class="c1">#  (2, 'A', 2, 'B'),</span>
+<span class="c1">#  (2, 'B', 1, 'A'),</span>
+<span class="c1">#  (2, 'B', 1, 'B'),</span>
+<span class="c1">#  (2, 'B', 2, 'A'),</span>
+<span class="c1">#  (2, 'B', 2, 'B')]</span>
+</code></pre>
+<div class="source">source: <a href="https://github.com/nkmk/python-snippets/blob/baa8e5a70de514f6789950b095a8fc6a07fafb7c/notebook/itertools_product.py#L115-L131">itertools_product.py</a></div>
+</div>
+
+<h2 id="_4">多重ループ（ネストしたループ）との速度比較</h2>
+<p>上述のように、<code>itertools.product()</code>で生成されるイテレータをforループでまわすと多重forループ（ネストしたforループ）と同じ結果となる。</p>
+<div class="highlight"><pre><span></span><code><span class="n">l1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="n">l2</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'A'</span><span class="p">,</span> <span class="s1">'B'</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">v1</span><span class="p">,</span> <span class="n">v2</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">l1</span><span class="p">,</span> <span class="n">l2</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">)</span>
+<span class="c1"># 1 A</span>
+<span class="c1"># 1 B</span>
+<span class="c1"># 2 A</span>
+<span class="c1"># 2 B</span>
+<span class="c1"># 3 A</span>
+<span class="c1"># 3 B</span>
+
+<span class="k">for</span> <span class="n">v1</span> <span class="ow">in</span> <span class="n">l1</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">v2</span> <span class="ow">in</span> <span class="n">l2</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">)</span>
+<span class="c1"># 1 A</span>
+<span class="c1"># 1 B</span>
+<span class="c1"># 2 A</span>
+<span class="c1"># 2 B</span>
+<span class="c1"># 3 A</span>
+<span class="c1"># 3 B</span>
+</code></pre>
+<div class="source">source: <a href="https://github.com/nkmk/python-snippets/blob/baa8e5a70de514f6789950b095a8fc6a07fafb7c/notebook/itertools_product.py#L26-L43">itertools_product.py</a></div>
+</div>
+
+<p>以降に示すように、実は<code>itertools.product()</code>のほうが多重forループよりも遅い。</p>
+<p>イテラブルオブジェクトの要素数、ネストするforループの数によって結果が異なる可能性があるが、例えば以下のStack OverflowのQ&amp;Aでも<code>itertools.product()</code>のほうが遅いという結果が回答されている。</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/9336727/python-itertools-slow">loops - Python itertools - slow? - Stack Overflow</a></li>
+<li><a href="https://stackoverflow.com/questions/24555457/itertools-product-slower-than-nested-for-loops">python - itertools.product slower than nested for loops - Stack Overflow</a></li>
+</ul>
+<p>以下、Jupyter Notebookのマジックコマンド<code>%%timeit</code>で実行時間を計測した結果を示す。Pythonコードとして実行しても計測できないので注意。</p>
+<ul>
+<li><strong>関連記事:</strong> <a href="https://note.nkmk.me/python-timeit-measure/">Pythonのtimeitモジュールで処理時間を計測</a></li>
+</ul>
+<h3 id="1000">要素数1000個、二重ループ</h3>
+<p>要素数1000個、二重ループの例。<code>pass</code>文でスルーしており、ループを回しているだけ。</p>
+<p><code>itertools.product()</code>の結果はアンパックして受け取ったほうが速い。</p>
+<div class="highlight"><pre><span></span><code><span class="n">A</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+
+<span class="o">%%</span><span class="n">timeit</span>
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">A</span><span class="p">):</span>
+    <span class="k">pass</span>
+<span class="c1"># 30.8 ms ± 910 µs per loop (mean ± std. dev. of 7 runs, 10 loops each)</span>
+
+<span class="o">%%</span><span class="n">timeit</span>
+<span class="k">for</span> <span class="n">a1</span><span class="p">,</span> <span class="n">a2</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">A</span><span class="p">):</span>
+    <span class="k">pass</span>
+<span class="c1"># 22.8 ms ± 293 µs per loop (mean ± std. dev. of 7 runs, 10 loops each)</span>
+</code></pre>
+<div class="source">source: <a href="https://github.com/nkmk/python-snippets/blob/95c535050cb6f215d7838f247e885a52c52f9cd0/notebook/itertools_product_timeit.py#L3-L13">itertools_product_timeit.py</a></div>
+</div>
+
+<p>ネストしたforループはアンパックした場合の<code>itertools.product()</code>とほぼ同等（若干速い）。</p>
+<div class="highlight"><pre><span></span><code><span class="o">%%</span><span class="n">timeit</span>
+<span class="k">for</span> <span class="n">a1</span> <span class="ow">in</span> <span class="n">A</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">a2</span> <span class="ow">in</span> <span class="n">A</span><span class="p">:</span>
+        <span class="k">pass</span>
+<span class="c1"># 22.6 ms ± 345 µs per loop (mean ± std. dev. of 7 runs, 10 loops each)</span>
+</code></pre>
+<div class="source">source: <a href="https://github.com/nkmk/python-snippets/blob/95c535050cb6f215d7838f247e885a52c52f9cd0/notebook/itertools_product_timeit.py#L15-L19">itertools_product_timeit.py</a></div>
+</div>
+
+<p>リスト内包表記のジェネレータ版であるジェネレータ式を使う場合はアンパックしないほうが速いが、いずれにせよ<code>itertools.product()</code>、ネストしたforループよりも遅い。</p>
+<ul>
+<li><strong>関連記事:</strong> <a href="https://note.nkmk.me/python-list-comprehension/">Pythonリスト内包表記の使い方</a></li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="o">%%</span><span class="n">timeit</span>
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">((</span><span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">)</span> <span class="k">for</span> <span class="n">a1</span> <span class="ow">in</span> <span class="n">A</span> <span class="k">for</span> <span class="n">a2</span> <span class="ow">in</span> <span class="n">A</span><span class="p">):</span>
+    <span class="k">pass</span>
+<span class="c1"># 82.2 ms ± 467 µs per loop (mean ± std. dev. of 7 runs, 10 loops each)</span>
+
+<span class="o">%%</span><span class="n">timeit</span>
+<span class="k">for</span> <span class="n">a1</span><span class="p">,</span> <span class="n">a2</span> <span class="ow">in</span> <span class="p">((</span><span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">)</span> <span class="k">for</span> <span class="n">a1</span> <span class="ow">in</span> <span class="n">A</span> <span class="k">for</span> <span class="n">a2</span> <span class="ow">in</span> <span class="n">A</span><span class="p">):</span>
+    <span class="k">pass</span>
+<span class="c1"># 91.4 ms ± 276 µs per loop (mean ± std. dev. of 7 runs, 10 loops each)</span>
+</code></pre>
+<div class="source">source: <a href="https://github.com/nkmk/python-snippets/blob/95c535050cb6f215d7838f247e885a52c52f9cd0/notebook/itertools_product_timeit.py#L21-L29">itertools_product_timeit.py</a></div>
+</div>
+
+<p>具体的な例として各組み合わせの積の合計を算出する。この場合も<code>itertools.product()</code>よりもネストしたforループのほうが速い。</p>
+<div class="highlight"><pre><span></span><code><span class="o">%%</span><span class="n">timeit</span>
+<span class="n">v</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">a1</span><span class="p">,</span> <span class="n">a2</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">A</span><span class="p">):</span>
+    <span class="n">v</span> <span class="o">+=</span> <span class="n">a1</span> <span class="o">*</span> <span class="n">a2</span>
+<span class="c1"># 98.8 ms ± 579 µs per loop (mean ± std. dev. of 7 runs, 10 loops each)</span>
+
+<span class="o">%%</span><span class="n">timeit</span>
+<span class="n">v</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">a1</span> <span class="ow">in</span> <span class="n">A</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">a2</span> <span class="ow">in</span> <span class="n">A</span><span class="p">:</span>
+        <span class="n">v</span> <span class="o">+=</span> <span class="n">a1</span> <span class="o">*</span> <span class="n">a2</span>
+<span class="c1"># 95.7 ms ± 4.05 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)</span>
+</code></pre>
+<div class="source">source: <a href="https://github.com/nkmk/python-snippets/blob/95c535050cb6f215d7838f247e885a52c52f9cd0/notebook/itertools_product_timeit.py#L31-L42">itertools_product_timeit.py</a></div>
+</div>
+
+<p>この例ではジェネレータ式を<code>sum()</code>に渡す方法のほうがわずかに速い。</p>
+<div class="highlight"><pre><span></span><code><span class="o">%%</span><span class="n">timeit</span>
+<span class="n">v</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">a1</span> <span class="o">*</span> <span class="n">a2</span> <span class="k">for</span> <span class="n">a1</span><span class="p">,</span> <span class="n">a2</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">A</span><span class="p">))</span>
+<span class="c1"># 94 ms ± 2.36 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)</span>
+
+<span class="o">%%</span><span class="n">timeit</span>
+<span class="n">v</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">a1</span> <span class="o">*</span> <span class="n">a2</span> <span class="k">for</span> <span class="n">a1</span> <span class="ow">in</span> <span class="n">A</span> <span class="k">for</span> <span class="n">a2</span> <span class="ow">in</span> <span class="n">A</span><span class="p">)</span>
+<span class="c1"># 92.7 ms ± 4.83 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)</span>
+</code></pre>
+<div class="source">source: <a href="https://github.com/nkmk/python-snippets/blob/95c535050cb6f215d7838f247e885a52c52f9cd0/notebook/itertools_product_timeit.py#L44-L50">itertools_product_timeit.py</a></div>
+</div>
+
+<h3 id="100">要素数100個、三重ループ</h3>
+<p>要素数100個、三重ループの例。</p>
+<p>この場合もネストしたforループが一番速い。</p>
+<div class="highlight"><pre><span></span><code><span class="n">B</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="o">%%</span><span class="n">timeit</span>
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">B</span><span class="p">):</span>
+    <span class="k">pass</span>
+<span class="c1"># 31.6 ms ± 725 µs per loop (mean ± std. dev. of 7 runs, 10 loops each)</span>
+
+<span class="o">%%</span><span class="n">timeit</span>
+<span class="k">for</span> <span class="n">b1</span><span class="p">,</span> <span class="n">b2</span><span class="p">,</span> <span class="n">b3</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">B</span><span class="p">):</span>
+    <span class="k">pass</span>
+<span class="c1"># 26.2 ms ± 490 µs per loop (mean ± std. dev. of 7 runs, 10 loops each)</span>
+
+<span class="o">%%</span><span class="n">timeit</span>
+<span class="k">for</span> <span class="n">b1</span> <span class="ow">in</span> <span class="n">B</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">b2</span> <span class="ow">in</span> <span class="n">B</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">b3</span> <span class="ow">in</span> <span class="n">B</span><span class="p">:</span>
+            <span class="k">pass</span>
+<span class="c1"># 12.9 ms ± 176 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)</span>
+
+<span class="o">%%</span><span class="n">timeit</span>
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">((</span><span class="n">b1</span><span class="p">,</span> <span class="n">b2</span><span class="p">,</span> <span class="n">b3</span><span class="p">)</span> <span class="k">for</span> <span class="n">b1</span> <span class="ow">in</span> <span class="n">B</span> <span class="k">for</span> <span class="n">b2</span> <span class="ow">in</span> <span class="n">B</span> <span class="k">for</span> <span class="n">b3</span> <span class="ow">in</span> <span class="n">B</span><span class="p">):</span>
+    <span class="k">pass</span>
+<span class="c1"># 80.9 ms ± 1.27 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)</span>
+
+<span class="o">%%</span><span class="n">timeit</span>
+<span class="k">for</span> <span class="n">b1</span><span class="p">,</span> <span class="n">b2</span><span class="p">,</span> <span class="n">b3</span> <span class="ow">in</span> <span class="p">((</span><span class="n">b1</span><span class="p">,</span> <span class="n">b2</span><span class="p">,</span> <span class="n">b3</span><span class="p">)</span> <span class="k">for</span> <span class="n">b1</span> <span class="ow">in</span> <span class="n">B</span> <span class="k">for</span> <span class="n">b2</span> <span class="ow">in</span> <span class="n">B</span> <span class="k">for</span> <span class="n">b3</span> <span class="ow">in</span> <span class="n">B</span><span class="p">):</span>
+    <span class="k">pass</span>
+<span class="c1"># 93.8 ms ± 3.22 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)</span>
+</code></pre>
+<div class="source">source: <a href="https://github.com/nkmk/python-snippets/blob/95c535050cb6f215d7838f247e885a52c52f9cd0/notebook/itertools_product_timeit.py#L52-L79">itertools_product_timeit.py</a></div>
+</div>
+
+<p>以上のように、要素数が1000個の二重ループや100個の三重ループでの差は数十ms程度。速度が重要な場合は多重ループ、特に速度を重視しない場合であれば<code>itertools.product()</code>を使ってコードの見通しをよくする、というように状況に応じて使い分ければよいだろう。</p>
+<p>当然ながら条件によって結果が異なる可能性があるので、どちらを採用するかは実際の条件で試して判断してほしい。</p></div>
+    </div>
+    
+    <div class="ad-block">
+        <ins class="adsbygoogle ad_PC" data-ad-client="ca-pub-3230114175671394" data-ad-slot="4866714571" data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<ins class="adsbygoogle ad_PC" data-ad-client="ca-pub-3230114175671394" data-ad-slot="3687642075" data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<ins class="adsbygoogle ad_mobile" data-ad-client="ca-pub-3230114175671394" data-ad-slot="6663011974" data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+    </div><h2>関連カテゴリー</h2>
+    <div class="link-list" id="related-category">
+        <ul class="columns">
+            <li><a href="https://note.nkmk.me/python/">Python</a></li>
+            <li><a href="https://note.nkmk.me/list/">リスト</a></li></ul>
+    </div>
+    
+    <h2>関連記事</h2>
+    <div class="link-list" id="related-post">
+        <ul>
+            <li><a href="https://note.nkmk.me/python-list-duplicate-check/">Pythonでリスト（配列）に重複した要素があるか判定</a></li>
+            <li><a href="https://note.nkmk.me/python-argument-expand/">Pythonで関数の引数にリスト、タプル、辞書を展開して渡す</a></li>
+            <li><a href="https://note.nkmk.me/python-pprint-pretty-print/">Pythonのpprintの使い方（リストや辞書を整形して出力）</a></li>
+            <li><a href="https://note.nkmk.me/python-slice-usage/">Pythonのスライスによるリストや文字列の部分選択・代入</a></li>
+            <li><a href="https://note.nkmk.me/python-list-str-select-replace/">Pythonで文字列のリスト（配列）の条件を満たす要素を抽出、置換</a></li>
+            <li><a href="https://note.nkmk.me/python-filter-usage/">Pythonのfilter()でリストから条件を満たす要素を抽出・削除</a></li>
+            <li><a href="https://note.nkmk.me/python-list-len/">Pythonでリストのサイズ（要素数）を取得</a></li>
+            <li><a href="https://note.nkmk.me/python-ast-literal-eval/">Pythonのast.literal_eval()で文字列をリストや辞書に変換</a></li>
+            <li><a href="https://note.nkmk.me/python-list-compare/">Pythonでリストを比較</a></li>
+            <li><a href="https://note.nkmk.me/python-split-strip-list-join/">Python, splitでカンマ区切り文字列を分割、空白を削除しリスト化</a></li>
+            <li><a href="https://note.nkmk.me/python-random-shuffle/">Pythonでリストの要素をシャッフル（random.shuffle, sample）</a></li>
+            <li><a href="https://note.nkmk.me/python-zip-usage-for/">Python, zip関数の使い方: 複数のリストの要素をまとめて取得</a></li>
+            <li><a href="https://note.nkmk.me/python-list-select-replace/">Pythonのリスト（配列）の特定の要素を抽出、置換、変換</a></li>
+            <li><a href="https://note.nkmk.me/python-dict-list-sort/">Pythonで辞書のリストを特定のキーの値に従ってソート</a></li>
+            <li><a href="https://note.nkmk.me/python-map-usage/">Pythonのmap()でリストの要素に関数・処理を適用</a></li></ul>
+    </div>
+</article>
+
+        </main>
+        
+<nav id="side">
+    
+
+<div id="side-search" class="side-block">
+    <div class="side-title">サイト内検索</div>
+    <div id="search-box">
+        <script async="" src="./Pythonで複数のリストの直積（デカルト積）を生成するitertools.product _ note.nkmk.me_files/f(1).txt">
+        </script>
+        <div id="___gcse_0"><div class="gsc-control-searchbox-only gsc-control-searchbox-only-ja" dir="ltr"><form class="gsc-search-box gsc-search-box-tools" accept-charset="utf-8"><table cellspacing="0" cellpadding="0" role="presentation" class="gsc-search-box"><tbody><tr><td class="gsc-input"><div class="gsc-input-box" id="gsc-iw-id1"><table cellspacing="0" cellpadding="0" role="presentation" id="gs_id50" class="gstl_50 gsc-input" style="width: 100%; padding: 0px;"><tbody><tr><td id="gs_tti50" class="gsib_a"><input autocomplete="off" type="text" size="10" class="gsc-input" name="search" title="検索" aria-label="検索" id="gsc-i-id1" style="width: 100%; padding: 0px; border: none; margin: -0.0625em 0px 0px; height: 1.25em; outline: none;" dir="ltr" spellcheck="false"></td><td class="gsib_b"><div class="gsst_b" id="gs_st50" dir="ltr"><a class="gsst_a" href="javascript:void(0)" style="display: none;" title="検索ボックスをクリア" role="button"><span class="gscb_a" id="gs_cb50" aria-hidden="true">×</span></a></div></td></tr></tbody></table></div></td><td class="gsc-search-button"><button class="gsc-search-button gsc-search-button-v2"><svg width="13" height="13" viewBox="0 0 13 13"><title>検索</title><path d="m4.8495 7.8226c0.82666 0 1.5262-0.29146 2.0985-0.87438 0.57232-0.58292 0.86378-1.2877 0.87438-2.1144 0.010599-0.82666-0.28086-1.5262-0.87438-2.0985-0.59352-0.57232-1.293-0.86378-2.0985-0.87438-0.8055-0.010599-1.5103 0.28086-2.1144 0.87438-0.60414 0.59352-0.8956 1.293-0.87438 2.0985 0.021197 0.8055 0.31266 1.5103 0.87438 2.1144 0.56172 0.60414 1.2665 0.8956 2.1144 0.87438zm4.4695 0.2115 3.681 3.6819-1.259 1.284-3.6817-3.7 0.0019784-0.69479-0.090043-0.098846c-0.87973 0.76087-1.92 1.1413-3.1207 1.1413-1.3553 0-2.5025-0.46363-3.4417-1.3909s-1.4088-2.0686-1.4088-3.4239c0-1.3553 0.4696-2.4966 1.4088-3.4239 0.9392-0.92727 2.0864-1.3969 3.4417-1.4088 1.3553-0.011889 2.4906 0.45771 3.406 1.4088 0.9154 0.95107 1.379 2.0924 1.3909 3.4239 0 1.2126-0.38043 2.2588-1.1413 3.1385l0.098834 0.090049z"></path></svg></button></td><td class="gsc-clear-button"><div class="gsc-clear-button" title="結果をクリア">&nbsp;</div></td></tr></tbody></table></form></div></div>
+    </div>
+</div>
+<div id="side-category" class="side-block">
+   <div class="side-title">カテゴリー</div>
+    <ul class="has-sub-categories"><li class="self"><a href="https://note.nkmk.me/python/">Python</a>
+            <ul class="nav-columns">
+                <li class="other"><a href="https://note.nkmk.me/keras/">Keras</a></li>
+                <li class="other"><a href="https://note.nkmk.me/matplotlib/">Matplotlib</a></li>
+                <li class="other"><a href="https://note.nkmk.me/numpy/">NumPy</a></li>
+                <li class="other"><a href="https://note.nkmk.me/opencv/">OpenCV</a></li>
+                <li class="other"><a href="https://note.nkmk.me/pandas/">pandas</a></li>
+                <li class="other"><a href="https://note.nkmk.me/pillow/">Pillow</a></li>
+                <li class="other"><a href="https://note.nkmk.me/pip/">pip</a></li>
+                <li class="other"><a href="https://note.nkmk.me/pydrive/">PyDrive</a></li>
+                <li class="other"><a href="https://note.nkmk.me/pytorch/">PyTorch</a></li>
+                <li class="other"><a href="https://note.nkmk.me/requests/">Requests</a></li>
+                <li class="other"><a href="https://note.nkmk.me/scikit-image/">scikit-image</a></li>
+                <li class="other"><a href="https://note.nkmk.me/scikit-learn/">scikit-learn</a></li>
+                <li class="other"><a href="https://note.nkmk.me/scipy/">SciPy</a></li>
+                <li class="other"><a href="https://note.nkmk.me/scrapy/">Scrapy</a></li>
+                <li class="other"><a href="https://note.nkmk.me/seaborn/">seaborn</a></li>
+                <li class="other"><a href="https://note.nkmk.me/sympy/">SymPy</a></li>
+                <li class="other"><a href="https://note.nkmk.me/tensorflow/">TensorFlow</a></li></ul>
+        </li></ul>
+    <ul class="nav-columns">
+        <li class="other"><a href="https://note.nkmk.me/c-sharp/">C#</a></li>
+        <li class="other"><a href="https://note.nkmk.me/git/">Git</a></li>
+        <li class="other"><a href="https://note.nkmk.me/jupyter-notebook/">Jupyter Notebook</a></li>
+        <li class="other"><a href="https://note.nkmk.me/mac/">Mac</a></li>
+        <li class="other"><a href="https://note.nkmk.me/algorithm/">アルゴリズム</a></li>
+        <li class="other"><a href="https://note.nkmk.me/scraping/">スクレイピング</a></li>
+        <li class="other"><a href="https://note.nkmk.me/web-api/">Web API</a></li>
+        <li class="other"><a href="https://note.nkmk.me/image-processing/">画像処理</a></li>
+        <li class="other"><a href="https://note.nkmk.me/machine-learning/">機械学習</a></li>
+        <li class="other"><a href="https://note.nkmk.me/file/">ファイル処理</a></li>
+        <li class="other"><a href="https://note.nkmk.me/csv/">CSV</a></li>
+        <li class="other"><a href="https://note.nkmk.me/excel/">Excel</a></li>
+        <li class="other"><a href="https://note.nkmk.me/json/">JSON</a></li>
+        <li class="other"><a href="https://note.nkmk.me/pdf/">PDF</a></li>
+        <li class="other"><a href="https://note.nkmk.me/date-and-time/">日時処理</a></li>
+        <li class="other"><a href="https://note.nkmk.me/time-series/">時系列データ</a></li>
+        <li class="other"><a href="https://note.nkmk.me/string/">文字列</a></li>
+        <li class="other"><a href="https://note.nkmk.me/regex/">正規表現</a></li>
+        <li class="other"><a href="https://note.nkmk.me/unicode/">Unicode</a></li>
+        <li class="other"><a href="https://note.nkmk.me/numeric/">数値</a></li>
+        <li class="other"><a href="https://note.nkmk.me/dictionary/">辞書</a></li><li class="self"><a href="https://note.nkmk.me/list/">リスト</a></li>
+        <li class="other"><a href="https://note.nkmk.me/error-handling/">エラー処理</a></li>
+        <li class="other"><a href="https://note.nkmk.me/mathematics/">算数・数学</a></li>
+        <li class="other"><a href="https://note.nkmk.me/automation/">自動化</a></li>
+        <li class="other"><a href="https://note.nkmk.me/book/">本・書籍</a></li>
+        <li class="other"><a href="https://note.nkmk.me/summary/">まとめ</a></li></ul>
+</div>
+<div id="side-about" class="side-block">
+    <div class="side-title">About</div>
+    <ul class="nav-columns">
+        <li><a href="https://twitter.com/nkmk_me">Twitter</a></li>
+        <li><a href="https://github.com/nkmk">GitHub</a></li>
+        <li><a href="https://www.kaggle.com/nkmkme">Kaggle</a></li>
+    </ul>
+</div>
+
+    <div class="side-block">
+    <div class="side-ad-block">
+        <ins class="adsbygoogle ad-side-res" data-ad-client="ca-pub-3230114175671394" data-ad-slot="9819148575" data-ad-format="vertical"></ins>
+        <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+
+        <ins class="adsbygoogle ad-side-res" data-ad-client="ca-pub-3230114175671394" data-ad-slot="2566866979" data-ad-format="rectangle"></ins>
+        <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+</div>
+    <div class="side-block">
+    <div class="side-title">関連記事</div>
+    <div class="link-list" id="side-related-post">
+        <ul>
+            <li><a href="https://note.nkmk.me/python-list-duplicate-check/">Pythonでリスト（配列）に重複した要素があるか判定</a></li>
+            <li><a href="https://note.nkmk.me/python-argument-expand/">Pythonで関数の引数にリスト、タプル、辞書を展開して渡す</a></li>
+            <li><a href="https://note.nkmk.me/python-pprint-pretty-print/">Pythonのpprintの使い方（リストや辞書を整形して出力）</a></li>
+            <li><a href="https://note.nkmk.me/python-slice-usage/">Pythonのスライスによるリストや文字列の部分選択・代入</a></li>
+            <li><a href="https://note.nkmk.me/python-list-str-select-replace/">Pythonで文字列のリスト（配列）の条件を満たす要素を抽出、置換</a></li></ul>
+    </div>
+</div>
+
+<div class="side-block">
+    <div class="side-title">おすすめ本</div>
+    <div class="link-list" id="recommend-books">
+        <ul>
+            <li><a href="https://note.nkmk.me/book-python-data-science-handbook-jp/">Pythonデータサイエンスハンドブック</a></li>
+            <li><a href="https://note.nkmk.me/book-pandas-python-data-analysis-2nd/">Pythonによるデータ分析入門 第2版</a></li>
+            <li><a href="https://note.nkmk.me/book-Introduction-to-machine-learning-with-python/">Pythonではじめる機械学習</a></li>
+            <li><a href="https://note.nkmk.me/book-digital-image-processing/">ディジタル画像処理 改訂新版</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="side-block">
+    <div class="side-ad-block">
+        <ins class="adsbygoogle ad-side-res" data-ad-client="ca-pub-3230114175671394" data-ad-slot="7005376257" data-ad-format="rectangle"></ins>
+        <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+</div>
+
+<div class="sticky-block">
+<div class="side-block">
+    <div class="side-ad-block">
+        <ins class="adsbygoogle ad-side-res" data-ad-client="ca-pub-3230114175671394" data-ad-slot="3748245927" data-ad-format="auto"></ins>
+        <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+</div>
+</div>
+</nav>
+
+    </div>
+    <footer>
+        <ul>
+            <li>
+                <a href="https://note.nkmk.me/en/">English</a> / Japanese
+            </li>
+            <li>|</li>
+            <li>
+                <a href="https://note.nkmk.me/disclaimer/">免責事項</a>
+            </li>
+            <li>
+                <a href="https://note.nkmk.me/privacy-policy/">プライバシーポリシー</a>
+            </li>
+            <li>
+                <a href="https://goo.gl/forms/jzDWs5YKbuVzE2Aq1">お問い合わせ</a>
+            </li>
+            <li>
+                <a href="https://note.nkmk.me/faq/">FAQ</a>
+            </li>
+            <li>
+                <a href="https://github.com/nkmk">GitHub</a>
+            </li>
+            <li>
+                <a href="https://twitter.com/nkmk_me">Twitter</a>
+            </li>
+            <li>
+                Amazon.co.jpアソシエイト
+            </li>
+            <li id="copyright">
+                ©<a href="https://nkmk.me/">nkmk.me</a>
+            </li>
+        </ul>
+    </footer>
+
+<deepl-input-controller><template shadowrootmode="open"><link rel="stylesheet" href="chrome-extension://cofdbpoegempjloogbagkncekinflcnj/build/content.css"><div dir="ltr" style="visibility: initial !important;"><div class="dl-input-translation-container svelte-95aucy"><div></div></div></div></template></deepl-input-controller><table cellspacing="0" cellpadding="0" role="presentation" class="gstl_50 gssb_c" style="width: 163px; display: none; top: 206px; left: 916px; position: absolute;"><tbody><tr><td class="gssb_f"></td><td class="gssb_e" style="width: 100%;"></td></tr></tbody></table><iframe id="Pi6e4yHn" frameborder="0" src="./Pythonで複数のリストの直積（デカルト積）を生成するitertools.product _ note.nkmk.me_files/translateSandbox.html" style="width: 0px; height: 0px; display: none;"></iframe></body><grammarly-desktop-integration data-grammarly-shadow-root="true"><template shadowrootmode="open"><style>
+      div.grammarly-desktop-integration {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select:none;
+        user-select:none;
+      }
+
+      div.grammarly-desktop-integration:before {
+        content: attr(data-content);
+      }
+    </style><div aria-label="grammarly-integration" role="group" tabindex="-1" class="grammarly-desktop-integration" data-content="{&quot;mode&quot;:&quot;full&quot;,&quot;isActive&quot;:true,&quot;isUserDisabled&quot;:false}"></div></template></grammarly-desktop-integration></html>
